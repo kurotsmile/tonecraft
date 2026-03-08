@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://tonecraft.web.app/sitemap.xml

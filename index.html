@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ToneCraft | Brightness / Contrast / Saturation / Gamma</title>
+  <meta name="description" content="Adjust image brightness, contrast, saturation, and gamma with live preview.">
+  <meta name="keywords" content="brightness contrast saturation gamma,image adjustment tool">
+  <meta name="author" content="Tran Thien Thanh">
+  <meta name="robots" content="index,follow,max-image-preview:large">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="ToneCraft - Brightness / Contrast / Saturation / Gamma">
+  <meta property="og:description" content="Adjust image brightness, contrast, saturation, and gamma with live preview.">
+  <meta property="og:url" content="https://tonecraft.web.app">
+  <meta property="og:image" content="https://tonecraft.web.app/favicon.svg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="ToneCraft - Brightness / Contrast / Saturation / Gamma">
+  <meta name="twitter:description" content="Adjust image brightness, contrast, saturation, and gamma with live preview.">
+  <link rel="canonical" href="https://tonecraft.web.app/">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <style>:root {
+  --bg: #f6f8fb;
+  --card: #ffffff;
+  --text: #132238;
+  --muted: #5b6b80;
+  --brand: #0d6efd;
+  --line: #dce3ed;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: "Segoe UI", "Noto Sans", sans-serif;
+  color: var(--text);
+  background:
+    radial-gradient(circle at top right, #dde9ff 0%, transparent 35%),
+    radial-gradient(circle at bottom left, #d9f5ea 0%, transparent 30%),
+    var(--bg);
+}
+.container {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 24px 20px 40px;
+}
+header {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 20px;
+  box-shadow: 0 14px 32px rgba(19, 34, 56, 0.08);
+}
+h1 { margin: 0 0 8px; font-size: 2rem; }
+.sub { margin: 0; color: var(--muted); }
+main {
+  margin-top: 18px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 20px;
+  box-shadow: 0 14px 32px rgba(19, 34, 56, 0.08);
+}
+.grid { display: grid; gap: 12px; }
+.grid.two { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+label { display: block; font-weight: 600; margin-bottom: 4px; }
+input, select, textarea, button {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 10px 12px;
+  font: inherit;
+}
+textarea { min-height: 130px; resize: vertical; }
+button {
+  background: linear-gradient(130deg, #0d6efd, #1ba19b);
+  color: #fff;
+  border: none;
+  font-weight: 700;
+  cursor: pointer;
+}
+button:hover { opacity: 0.92; }
+.output, .panel {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 12px;
+  background: #fbfdff;
+}
+.swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 10px; }
+.swatch {
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  overflow: hidden;
+  cursor: pointer;
+}
+.swatch div { height: 68px; }
+.swatch code { display: block; text-align: center; padding: 8px; background: #fff; }
+canvas, img.preview {
+  max-width: 100%;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: #fff;
+}
+.site-footer {
+  margin-top: 20px;
+  background: #0d1e33;
+  color: #dfe9f8;
+  border-radius: 16px;
+  padding: 18px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 12px;
+}
+.site-footer h3 { margin: 0 0 8px; color: #fff; }
+.site-footer p { margin: 5px 0; word-break: break-word; }
+.site-footer a { color: #8cc7ff; }
+.note { color: var(--muted); font-size: .95rem; }
+</style>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"ToneCraft","description":"Adjust image brightness, contrast, saturation, and gamma with live preview.","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","url":"https://tonecraft.web.app"}</script>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Brightness / Contrast / Saturation / Gamma</h1>
+      <p class="sub">Adjust image brightness, contrast, saturation, and gamma with live preview.</p>
+    </header>
+    <main>
+      <input id="f" type="file" accept="image/*">
+    <div class="grid two" style="margin-top:10px">
+      <div><label>Brightness</label><input id="br" type="range" min="-100" max="100" value="0"></div>
+      <div><label>Contrast</label><input id="ct" type="range" min="-100" max="100" value="0"></div>
+      <div><label>Saturation</label><input id="st" type="range" min="-100" max="100" value="0"></div>
+      <div><label>Gamma</label><input id="gm" type="range" min="10" max="300" value="100"></div>
+    </div>
+    <button id="save" style="margin-top:10px">Download</button>
+    <canvas id="cv" width="900" height="600" style="margin-top:10px"></canvas>
+    </main>
+    
+<footer class="site-footer">
+  <div>
+    <h3>Contact</h3>
+    <p>Email: <a href="mailto:tranthienthanh93@gmail.com">tranthienthanh93@gmail.com</a></p>
+    <p>Web: <a href="https://carrotstore.web.app" target="_blank" rel="noopener">carrotstore.web.app</a></p>
+    <p>Phone: <a href="tel:+84978651577">+84978651577</a></p>
+    <p>Tiktok: <a href="https://www.tiktok.com/@kurotsmilethanh" target="_blank" rel="noopener">@kurotsmilethanh</a></p>
+  </div>
+  <div>
+    <h3>Donation</h3>
+    <p>PayPal: <a href="https://www.paypal.com/paypalme/kurotsmile" target="_blank" rel="noopener">https://www.paypal.com/paypalme/kurotsmile</a></p>
+    <p>Buy us a Coffee on Ko-fi: <a href="https://ko-fi.com/T6T210E258" target="_blank" rel="noopener">https://ko-fi.com/T6T210E258</a></p>
+  </div>
+</footer>
+  </div>
+  <script>let img=null; const cv=document.getElementById('cv'),ctx=cv.getContext('2d');
+const els=['br','ct','st','gm'].map(id=>document.getElementById(id));
+document.getElementById('f').onchange=async e=>{const f=e.target.files[0]; if(!f) return; img=new Image(); img.src=URL.createObjectURL(f); await img.decode(); draw();};
+function draw(){ if(!img) return; cv.width=img.width; cv.height=img.height; ctx.drawImage(img,0,0); const id=ctx.getImageData(0,0,cv.width,cv.height); const d=id.data;
+const br=+brEl().value, ct=(+ctEl().value+100)/100, sat=(+stEl().value+100)/100, gm=+gmEl().value/100;
+for(let i=0;i<d.length;i+=4){ let r=d[i],g=d[i+1],b=d[i+2]; r=(r-128)*ct+128+br; g=(g-128)*ct+128+br; b=(b-128)*ct+128+br; const gray=0.299*r+0.587*g+0.114*b; r=gray+(r-gray)*sat; g=gray+(g-gray)*sat; b=gray+(b-gray)*sat; r=255*Math.pow(Math.max(0,Math.min(255,r))/255,1/gm); g=255*Math.pow(Math.max(0,Math.min(255,g))/255,1/gm); b=255*Math.pow(Math.max(0,Math.min(255,b))/255,1/gm); d[i]=r; d[i+1]=g; d[i+2]=b; }
+ctx.putImageData(id,0,0); }
+function brEl(){return document.getElementById('br')} function ctEl(){return document.getElementById('ct')} function stEl(){return document.getElementById('st')} function gmEl(){return document.getElementById('gm')}
+els.forEach(e=>e.oninput=draw);
+document.getElementById('save').onclick=()=>{const a=document.createElement('a'); a.href=cv.toDataURL('image/jpeg',0.92); a.download='tonecraft.jpg'; a.click();};</script>
+</body>
+</html>
