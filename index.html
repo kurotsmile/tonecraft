@@ -160,14 +160,53 @@ canvas, img.preview, svg {
   main, header { padding: 16px; }
 }</style>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"ToneCraft","description":"Adjust image brightness, contrast, saturation, and gamma with live preview.","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","url":"https://tonecraft.web.app"}</script>
+<style id="round2-style">
+body.theme-shell::before, body.theme-shell::after {
+  content:"";
+  position:fixed;
+  z-index:-1;
+  width:320px;
+  height:320px;
+  border-radius:46% 54% 58% 42% / 48% 34% 66% 52%;
+  background:linear-gradient(124deg, #654ea322, #eaafc822);
+  filter: blur(1px);
+}
+body.theme-shell::before { top:-90px; right:-90px; }
+body.theme-shell::after { bottom:-110px; left:-110px; }
+.tool-ribbon {
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:10px 12px;
+  margin:0 0 12px;
+  border:1px solid color-mix(in srgb, #654ea3 32%, #ffffff);
+  background:linear-gradient(120deg, #654ea314, #eaafc810);
+  border-radius:12px;
+  font-weight:700;
+  letter-spacing:.2px;
+}
+.ribbon-ic {
+  width:18px;
+  height:18px;
+  stroke:color-mix(in srgb, #654ea3 65%, #102030);
+  fill:none;
+  stroke-width:1.9;
+}
+header h1 { position: relative; z-index: 1; }
+header .sub { position: relative; z-index: 1; }
+main { position: relative; overflow: visible; }
+button { min-height: 42px; }
+.theme-shell main{border-style:dashed}.theme-shell .tool-ribbon{border-radius:999px;display:inline-flex;width:auto;padding:8px 14px;margin-bottom:10px}
+</style>
 </head>
-<body>
+<body class="theme-shell">
   <div class="container">
     <header>
       <h1>Brightness / Contrast / Saturation / Gamma</h1>
       <p class="sub">Adjust image brightness, contrast, saturation, and gamma with live preview.</p>
     </header>
     <main>
+      <div class="tool-ribbon"><svg viewBox="0 0 24 24" class="ribbon-ic"><path d="M4 18V6M10 20V4M16 16V8M20 14v-4"/></svg><span>Tone Control Deck</span></div>
       <input id="f" type="file" accept="image/*">
     <div class="grid two" style="margin-top:10px">
       <div><label>Brightness</label><input id="br" type="range" min="-100" max="100" value="0"></div>
