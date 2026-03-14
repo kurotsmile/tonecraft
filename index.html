@@ -1,69 +1,912 @@
-<!doctype html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>ToneCraft | Brightness / Contrast / Saturation / Gamma</title><meta name="description" content="Adjust image brightness, contrast, saturation, and gamma with live preview."><meta name="keywords" content="brightness contrast saturation gamma,image adjustment tool"><meta name="author" content="Tran Thien Thanh"><meta name="robots" content="index,follow,max-image-preview:large"><meta property="og:type" content="website"><meta property="og:title" content="ToneCraft - Brightness / Contrast / Saturation / Gamma"><meta property="og:description" content="Adjust image brightness, contrast, saturation, and gamma with live preview."><meta property="og:url" content="https://tonecraft.web.app"><meta property="og:image" content="https://tonecraft.web.app/favicon.svg"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="ToneCraft - Brightness / Contrast / Saturation / Gamma"><meta name="twitter:description" content="Adjust image brightness, contrast, saturation, and gamma with live preview."><link rel="canonical" href="https://tonecraft.web.app/"><link rel="icon" type="image/svg+xml" href="favicon.svg"><style>:root{--w:1150px;--r:17px;--font:"Bookman","Segoe UI",serif;--bg:#f8f9ff;--card:#fff;--text:#242949;--muted:#6e7390;--line:#dbe0f7;--g1:#7052b4;--g2:#e9aac9;--shadow:0 14px 30px rgba(39,43,81,.14)}
-*{box-sizing:border-box}
-body{margin:0;color:var(--text);font-family:var(--font);background:var(--bg)}
-.page{max-width:var(--w);margin:0 auto;padding:24px 16px 36px}
-.tool-shell{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:18px;box-shadow:var(--shadow)}
-label{display:block;margin-bottom:6px;font-weight:700}
-input,select,textarea,button{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:10px;font:inherit}
-textarea{min-height:130px;resize:vertical}
-button{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:none;background:linear-gradient(125deg,var(--g1),var(--g2));color:#fff;font-weight:700;cursor:pointer}
-button:hover{filter:brightness(1.05)}
-.btn-ic{width:14px;height:14px;stroke:currentColor;stroke-width:2;fill:none}
-.grid{display:grid;gap:12px}
-.grid.two{grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
-.output,.panel{border:1px solid var(--line);border-radius:12px;padding:12px;background:#fff}
-canvas,img.preview,svg{max-width:100%;border-radius:12px;border:1px solid var(--line);background:#fff}
-.swatches{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px}
-.swatch{border:1px solid var(--line);border-radius:12px;overflow:hidden;cursor:pointer}
-.swatch div{height:68px}
-.swatch code{display:block;text-align:center;padding:8px;background:#fff}
-.note{color:var(--muted)}
-.site-footer{margin-top:20px;background:#10243a;color:#dce8f8;border:1px solid #1e3e61;border-radius:14px;padding:16px;display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
-.site-footer h3{margin:0 0 8px;color:#fff}
-.site-footer p{margin:5px 0;word-break:break-word}
-.site-footer a{color:#92cfff}
-@media (max-width:720px){.page{padding:14px 10px 24px}.tool-shell{padding:14px}}
-.hero{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:16px}.hero .nums{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}.hero .nums div{border:1px solid var(--line);padding:7px;border-radius:10px;text-align:center;font-family:ui-monospace}</style><script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"ToneCraft","description":"Adjust image brightness, contrast, saturation, and gamma with live preview.","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","url":"https://tonecraft.web.app"}</script></head><body><div class="page"><section class="hero"><h1>Brightness / Contrast / Saturation / Gamma</h1><p>Adjust image brightness, contrast, saturation, and gamma with live preview.</p><div class="nums"><div>BR</div><div>CT</div><div>SAT</div><div>GM</div></div></section><section class="tool-shell"><input id="f" type="file" accept="image/*"><div class="grid two" style="margin-top:10px"><div><label>Brightness</label><input id="br" type="range" min="-100" max="100" value="0"></div><div><label>Contrast</label><input id="ct" type="range" min="-100" max="100" value="0"></div><div><label>Saturation</label><input id="st" type="range" min="-100" max="100" value="0"></div><div><label>Gamma</label><input id="gm" type="range" min="10" max="300" value="100"></div></div><button id="save" style="margin-top:10px">Download</button><canvas id="cv" width="900" height="600" style="margin-top:10px"></canvas></section>
-<footer class="site-footer">
-  <div>
-    <h3>Contact</h3>
-    <p>Email: <a href="mailto:tranthienthanh93@gmail.com">tranthienthanh93@gmail.com</a></p>
-    <p>Web: <a href="https://carrotstore.web.app" target="_blank" rel="noopener">carrotstore.web.app</a></p>
-    <p>Phone: <a href="tel:+84978651577">+84978651577</a></p>
-    <p>Tiktok: <a href="https://www.tiktok.com/@kurotsmilethanh" target="_blank" rel="noopener">@kurotsmilethanh</a></p>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ToneCraft | Fast Image Tuning Studio</title>
+  <meta name="description" content="Edit image tone with presets, compare mode, crop-free transforms, and flexible export settings in one fast browser tool.">
+  <meta name="keywords" content="image editor,brightness,contrast,saturation,gamma,presets,compare,export">
+  <meta name="author" content="Tran Thien Thanh">
+  <meta name="robots" content="index,follow,max-image-preview:large">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="ToneCraft | Fast Image Tuning Studio">
+  <meta property="og:description" content="Tune image tone with live preview, presets, compare mode, transforms, and smart export.">
+  <meta property="og:url" content="https://tonecraft.web.app">
+  <meta property="og:image" content="https://tonecraft.web.app/favicon.svg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="ToneCraft | Fast Image Tuning Studio">
+  <meta name="twitter:description" content="Tune image tone with live preview, presets, compare mode, transforms, and smart export.">
+  <meta name="google-site-verification" content="nBRtybQiKSfscC8nBsrULmC0aHm1bdI7mtaia4d-0yU" />
+  <link rel="canonical" href="https://tonecraft.web.app/">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <script>(function(s){s.dataset.zone='10728599',s.src='https://nap5k.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+  <script>(function(s){s.dataset.zone='10728608',s.src='https://gizokraijaw.net/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+  <style>
+    :root {
+      --surface: rgba(255, 250, 242, 0.85);
+      --text: #1f2620;
+      --muted: #5c655d;
+      --line: rgba(31, 38, 32, 0.12);
+      --line-strong: rgba(31, 38, 32, 0.22);
+      --primary: #c75f3b;
+      --primary-deep: #8f3f24;
+      --accent: #2f7d6b;
+      --shadow: 0 24px 80px rgba(53, 43, 20, 0.16);
+      --radius-xl: 28px;
+      --radius-md: 14px;
+      --radius-sm: 10px;
+      --container: 1340px;
+      --mono: "Cascadia Mono", "Consolas", monospace;
+      --sans: "Trebuchet MS", "Segoe UI", sans-serif;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--text);
+      font-family: var(--sans);
+      background:
+        radial-gradient(circle at top left, rgba(255,255,255,.75), transparent 28%),
+        radial-gradient(circle at 85% 10%, rgba(199,95,59,.24), transparent 22%),
+        radial-gradient(circle at bottom right, rgba(47,125,107,.18), transparent 28%),
+        linear-gradient(180deg, #f6f0e6 0%, #eee2d0 100%);
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(0,0,0,.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,0,0,.02) 1px, transparent 1px);
+      background-size: 24px 24px;
+      mask-image: linear-gradient(180deg, rgba(0,0,0,.24), transparent 80%);
+    }
+    .page { max-width: var(--container); margin: 0 auto; padding: 28px 18px 40px; }
+    .hero, .panel, .workspace, .site-footer {
+      border: 1px solid rgba(255,255,255,.55);
+      border-radius: var(--radius-xl);
+      background: var(--surface);
+      backdrop-filter: blur(18px);
+      box-shadow: var(--shadow);
+    }
+    .hero {
+      padding: 28px;
+      background:
+        linear-gradient(135deg, rgba(255,250,242,.92), rgba(255,246,232,.7)),
+        linear-gradient(135deg, rgba(199,95,59,.08), rgba(47,125,107,.08));
+    }
+    .hero-grid, .app, .footer-grid, .workspace-top { display: grid; gap: 20px; }
+    .hero-grid { grid-template-columns: 1.4fr .9fr; align-items: start; }
+    .eyebrow {
+      display: inline-flex;
+      padding: 8px 12px;
+      border: 1px solid rgba(47,125,107,.2);
+      border-radius: 999px;
+      background: rgba(255,255,255,.55);
+      color: var(--accent);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    h1 {
+      margin: 16px 0 10px;
+      font-size: clamp(2.2rem, 5vw, 4.6rem);
+      line-height: .95;
+      letter-spacing: -.05em;
+    }
+    .hero p { margin: 0; color: var(--muted); font-size: 1.04rem; line-height: 1.6; }
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 22px;
+    }
+    .stat, .hero-card, .upload-zone, .kv div, .mini-list li { border-radius: var(--radius-md); }
+    .stat { padding: 14px; border: 1px solid var(--line); background: rgba(255,255,255,.64); }
+    .stat strong, .stat span { display: block; }
+    .stat strong { font-size: .78rem; color: var(--muted); text-transform: uppercase; letter-spacing: .08em; }
+    .stat span { margin-top: 8px; font-size: 1.2rem; font-weight: 700; }
+    .hero-card { padding: 18px; background: rgba(23,33,33,.92); color: #f3ebe0; }
+    .hero-card h2, .panel-header h2, .footer-head h3 { margin: 0; font-size: 1rem; letter-spacing: .04em; text-transform: uppercase; }
+    .mini-list { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; }
+    .mini-list li { display: flex; justify-content: space-between; gap: 10px; padding: 10px 12px; background: rgba(255,255,255,.06); font-size: .95rem; }
+    .app { grid-template-columns: 360px minmax(0, 1fr); margin-top: 22px; }
+    .panel { padding: 18px; position: sticky; top: 18px; align-self: start; }
+    .workspace { padding: 18px; display: grid; gap: 16px; }
+    .panel-header, .footer-head, .control-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+    .badge {
+      display: inline-flex;
+      padding: 7px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      color: var(--muted);
+      background: rgba(255,255,255,.65);
+      font-size: .8rem;
+      font-weight: 700;
+    }
+    .divider { height: 1px; margin: 16px 0; background: linear-gradient(90deg, transparent, var(--line-strong), transparent); }
+    .upload-zone {
+      position: relative;
+      display: grid;
+      gap: 10px;
+      padding: 18px;
+      border: 1.5px dashed rgba(47,125,107,.36);
+      background: linear-gradient(180deg, rgba(255,255,255,.7), rgba(223,238,230,.65));
+    }
+    .upload-zone.dragover { transform: translateY(-2px); border-color: var(--primary); }
+    .upload-zone input[type="file"] { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+    .upload-zone p, .inline-note, .status span, .site-footer p, .site-footer a, .empty-card p { color: var(--muted); line-height: 1.6; }
+    .preset-grid, .export-grid, .info-grid, .quick-grid, .footer-grid { display: grid; gap: 10px; }
+    .preset-grid, .quick-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .export-grid, .info-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .footer-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); align-items: stretch; margin-top: 22px; }
+    button, select, input[type="range"], input[type="number"] { width: 100%; font: inherit; }
+    button {
+      appearance: none;
+      border: 1px solid transparent;
+      border-radius: 999px;
+      padding: 11px 14px;
+      color: #fff8f0;
+      background: linear-gradient(135deg, var(--primary), #d5854d);
+      cursor: pointer;
+      font-weight: 700;
+    }
+    button.secondary { color: var(--text); background: rgba(255,255,255,.82); border-color: var(--line); }
+    button.accent { background: linear-gradient(135deg, var(--accent), #4ea28a); }
+    .control { display: grid; gap: 8px; margin-bottom: 14px; }
+    .control label { font-weight: 700; }
+    .control output {
+      min-width: 56px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.72);
+      border: 1px solid var(--line);
+      color: var(--muted);
+      text-align: center;
+      font-family: var(--mono);
+      font-size: .85rem;
+    }
+    input[type="range"] {
+      height: 10px;
+      margin: 0;
+      border-radius: 999px;
+      outline: none;
+      background: linear-gradient(90deg, rgba(199,95,59,.22), rgba(47,125,107,.24));
+      -webkit-appearance: none;
+      appearance: none;
+    }
+    input[type="range"]::-webkit-slider-thumb, input[type="range"]::-moz-range-thumb {
+      width: 20px;
+      height: 20px;
+      border: 2px solid #fff;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+    }
+    select, input[type="number"] { padding: 10px 12px; border: 1px solid var(--line); border-radius: var(--radius-sm); background: rgba(255,255,255,.82); color: var(--text); }
+    .workspace-top { grid-template-columns: 1.2fr auto; align-items: start; }
+    .status { display: grid; gap: 4px; }
+    .actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 10px; }
+    .canvas-shell {
+      position: relative;
+      min-height: 560px;
+      border-radius: 24px;
+      border: 1px solid rgba(31,38,32,.1);
+      overflow: hidden;
+      background:
+        linear-gradient(45deg, rgba(31,38,32,.06) 25%, transparent 25%),
+        linear-gradient(-45deg, rgba(31,38,32,.06) 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, rgba(31,38,32,.06) 75%),
+        linear-gradient(-45deg, transparent 75%, rgba(31,38,32,.06) 75%),
+        linear-gradient(180deg, #fffdf7, #f3ead9);
+      background-size: 28px 28px;
+      background-position: 0 0, 0 14px, 14px -14px, -14px 0;
+    }
+    .canvas-stage { position: absolute; inset: 0; display: grid; place-items: center; overflow: auto; padding: 20px; }
+    .canvas-stack { position: relative; display: inline-block; transform-origin: center center; transition: transform .16s ease; }
+    canvas { display: block; max-width: none; border-radius: 18px; box-shadow: 0 28px 80px rgba(31,38,32,.2); background: #fff; }
+    #baseCanvas { position: absolute; inset: 0; pointer-events: none; display: none; }
+    #editCanvas { position: relative; z-index: 2; }
+    .compare-curtain { position: absolute; top: 0; bottom: 0; left: 50%; width: 2px; background: rgba(255,255,255,.92); transform: translateX(-50%); z-index: 4; display: none; }
+    .canvas-stage.is-empty canvas,
+    .canvas-stage.is-empty .compare-curtain { display: none !important; }
+    .empty-state { display: none; }
+    .site-footer { padding: 18px; height: 100%; }
+    .site-footer a { color: var(--primary-deep); }
+    .kv { display: grid; gap: 10px; }
+    .kv div { display: flex; justify-content: space-between; gap: 12px; padding: 10px 12px; border: 1px solid var(--line); background: rgba(255,255,255,.72); }
+    .kv strong { font-size: .8rem; color: var(--muted); text-transform: uppercase; letter-spacing: .08em; }
+    .kv span { font-family: var(--mono); font-size: .92rem; text-align: right; }
+    .hidden { display: none !important; }
+    @media (max-width: 1100px) {
+      .hero-grid, .app, .workspace-top { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .panel { position: static; }
+      .actions { justify-content: flex-start; }
+    }
+    @media (max-width: 720px) {
+      .page { padding: 16px 10px 26px; }
+      .hero, .panel, .workspace, .site-footer { padding: 14px; border-radius: 22px; }
+      .hero-stats, .preset-grid, .quick-grid, .export-grid, .info-grid { grid-template-columns: 1fr 1fr; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .canvas-shell { min-height: 360px; }
+    }
+  </style>
+  <script type="application/ld+json">
+    {"@context":"https://schema.org","@type":"WebApplication","name":"ToneCraft","description":"Fast browser-based image tone editor with live preview, presets, compare mode, and export controls.","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","url":"https://tonecraft.web.app"}
+  </script>
+</head>
+<body>
+  <div class="page">
+    <section class="hero">
+      <div class="hero-grid">
+        <div>
+          <div class="eyebrow">ToneCraft Studio</div>
+          <h1>Shape tone, texture, and mood in one pass.</h1>
+          <p>Drop an image, tune it with live controls, compare before and after, apply instant presets, then export to PNG, JPEG, or WebP without leaving the browser.</p>
+          <div class="hero-stats">
+            <div class="stat"><strong>Live Engine</strong><span>Realtime canvas preview</span></div>
+            <div class="stat"><strong>Workflow</strong><span>Presets, compare, reset</span></div>
+            <div class="stat"><strong>Transform</strong><span>Rotate and flip</span></div>
+            <div class="stat"><strong>Export</strong><span>PNG / JPEG / WebP</span></div>
+          </div>
+        </div>
+        <aside class="hero-card">
+          <h2>Session Flow</h2>
+          <ul class="mini-list">
+            <li><span>1. Import</span><strong>Click, drop, or paste</strong></li>
+            <li><span>2. Tune</span><strong>8 sliders + instant presets</strong></li>
+            <li><span>3. Inspect</span><strong>Split compare and zoom</strong></li>
+            <li><span>4. Export</span><strong>Format and quality controls</strong></li>
+          </ul>
+        </aside>
+      </div>
+    </section>
+    <main class="app">
+      <aside class="panel">
+        <div class="panel-header">
+          <h2>Controls</h2>
+          <span class="badge" id="loadBadge">No image</span>
+        </div>
+        <div class="divider"></div>
+        <section>
+          <div class="upload-zone" id="uploadZone">
+            <input id="fileInput" type="file" accept="image/*">
+            <strong>Import image</strong>
+            <p>Click here, drag and drop a file, or paste from clipboard.</p>
+            <span class="badge">JPG, PNG, WebP, GIF frame</span>
+          </div>
+          <p class="inline-note" id="statusText">Waiting for an image.</p>
+        </section>
+        <div class="divider"></div>
+        <section>
+          <div class="panel-header">
+            <h2>Presets</h2>
+            <button class="secondary" id="resetBtn" type="button">Reset all</button>
+          </div>
+          <div class="preset-grid" style="margin-top:12px;">
+            <button class="secondary preset-btn" type="button" data-preset="neutral">Neutral</button>
+            <button class="secondary preset-btn" type="button" data-preset="vivid">Vivid</button>
+            <button class="secondary preset-btn" type="button" data-preset="portrait">Portrait</button>
+            <button class="secondary preset-btn" type="button" data-preset="mono">Mono</button>
+            <button class="secondary preset-btn" type="button" data-preset="vintage">Vintage</button>
+            <button class="secondary preset-btn" type="button" data-preset="cinema">Cinema</button>
+          </div>
+        </section>
+        <div class="divider"></div>
+        <section>
+          <div class="control"><div class="control-head"><label for="brightness">Brightness</label><output id="brightnessOut">0</output></div><input id="brightness" type="range" min="-100" max="100" value="0"></div>
+          <div class="control"><div class="control-head"><label for="contrast">Contrast</label><output id="contrastOut">0</output></div><input id="contrast" type="range" min="-100" max="100" value="0"></div>
+          <div class="control"><div class="control-head"><label for="saturation">Saturation</label><output id="saturationOut">0</output></div><input id="saturation" type="range" min="-100" max="100" value="0"></div>
+          <div class="control"><div class="control-head"><label for="gamma">Gamma</label><output id="gammaOut">1.00</output></div><input id="gamma" type="range" min="40" max="220" value="100"></div>
+          <div class="control"><div class="control-head"><label for="warmth">Warmth</label><output id="warmthOut">0</output></div><input id="warmth" type="range" min="-100" max="100" value="0"></div>
+          <div class="control"><div class="control-head"><label for="fade">Fade</label><output id="fadeOut">0</output></div><input id="fade" type="range" min="0" max="100" value="0"></div>
+          <div class="control"><div class="control-head"><label for="vignette">Vignette</label><output id="vignetteOut">0</output></div><input id="vignette" type="range" min="0" max="100" value="0"></div>
+          <div class="control"><div class="control-head"><label for="sharpness">Sharpness</label><output id="sharpnessOut">0</output></div><input id="sharpness" type="range" min="0" max="100" value="0"></div>
+        </section>
+        <div class="divider"></div>
+        <section>
+          <div class="panel-header"><h2>Quick Actions</h2><span class="badge">Non-destructive</span></div>
+          <div class="quick-grid" style="margin-top:12px;">
+            <button class="secondary" type="button" id="rotateLeftBtn">Rotate -90</button>
+            <button class="secondary" type="button" id="rotateRightBtn">Rotate +90</button>
+            <button class="secondary" type="button" id="flipHBtn">Flip horizontal</button>
+            <button class="secondary" type="button" id="flipVBtn">Flip vertical</button>
+          </div>
+        </section>
+        <div class="divider"></div>
+        <section>
+          <div class="panel-header"><h2>Export</h2><span class="badge" id="exportBadge">JPEG 92%</span></div>
+          <div class="export-grid" style="margin-top:12px;">
+            <div class="control" style="margin-bottom:0;"><label for="exportFormat">Format</label><select id="exportFormat"><option value="image/jpeg">JPEG</option><option value="image/png">PNG</option><option value="image/webp">WebP</option></select></div>
+            <div class="control" style="margin-bottom:0;"><label for="quality">Quality</label><input id="quality" type="number" min="10" max="100" value="92"></div>
+          </div>
+          <button id="downloadBtn" class="accent" type="button" style="margin-top:12px;">Download edited image</button>
+        </section>
+      </aside>
+      <section class="workspace">
+        <div class="workspace-top">
+          <div class="status">
+            <strong id="workspaceTitle">ToneCraft preview studio</strong>
+            <span id="workspaceSubtitle">Load an image to activate comparison, transforms, zoom, and export tools.</span>
+          </div>
+          <div class="actions">
+            <button class="secondary" type="button" id="toggleCompareBtn">Toggle compare</button>
+            <button class="secondary" type="button" id="fitBtn">Fit to view</button>
+            <button class="secondary" type="button" id="zoomOutBtn">Zoom -</button>
+            <button class="secondary" type="button" id="zoomInBtn">Zoom +</button>
+          </div>
+        </div>
+        <div class="control" style="margin-bottom:0;">
+          <div class="control-head"><label for="compareRange">Compare split</label><output id="compareOut">50%</output></div>
+          <input id="compareRange" type="range" min="0" max="100" value="50">
+        </div>
+        <div class="canvas-shell">
+          <div class="canvas-stage" id="canvasStage">
+            <div class="canvas-stack" id="canvasStack" style="transform:scale(1);">
+              <canvas id="baseCanvas"></canvas>
+              <canvas id="editCanvas"></canvas>
+              <div class="compare-curtain" id="compareCurtain"></div>
+            </div>
+          </div>
+        </div>
+        <div class="info-grid">
+          <div class="kv">
+            <div><strong>File</strong><span id="infoName">-</span></div>
+            <div><strong>Dimensions</strong><span id="infoSize">-</span></div>
+          </div>
+          <div class="kv">
+            <div><strong>Zoom</strong><span id="infoZoom">100%</span></div>
+            <div><strong>Orientation</strong><span id="infoTransform">0 deg</span></div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <section class="footer-grid">
+      <footer class="site-footer"><div class="footer-head"><h3>Usage Notes</h3><span class="badge">Browser local only</span></div><p>All editing happens in the browser canvas. Images are not uploaded to a server from this page.</p></footer>
+      <footer class="site-footer"><div class="footer-head"><h3>Contact</h3><span class="badge">Author</span></div><p>Email: <a href="mailto:tranthienthanh93@gmail.com">tranthienthanh93@gmail.com</a></p><p>Web: <a href="https://carrotstore.web.app" target="_blank" rel="noopener">carrotstore.web.app</a></p></footer>
+      <footer class="site-footer"><div class="footer-head"><h3>Support</h3><span class="badge">Donation</span></div><p>PayPal: <a href="https://www.paypal.com/paypalme/kurotsmile" target="_blank" rel="noopener">paypal.me/kurotsmile</a></p><p>Ko-fi: <a href="https://ko-fi.com/T6T210E258" target="_blank" rel="noopener">ko-fi.com/T6T210E258</a></p></footer>
+    </section>
   </div>
-  <div>
-    <h3>Donation</h3>
-    <p>PayPal: <a href="https://www.paypal.com/paypalme/kurotsmile" target="_blank" rel="noopener">https://www.paypal.com/paypalme/kurotsmile</a></p>
-    <p>Buy us a Coffee on Ko-fi: <a href="https://ko-fi.com/T6T210E258" target="_blank" rel="noopener">https://ko-fi.com/T6T210E258</a></p>
-  </div>
-</footer></div><script>let img=null; const cv=document.getElementById('cv'),ctx=cv.getContext('2d'); const els=['br','ct','st','gm'].map(id=>document.getElementById(id)); document.getElementById('f').onchange=async e=>{const f=e.target.files[0]; if(!f) return; img=new Image(); img.src=URL.createObjectURL(f); await img.decode(); draw();}; function draw(){ if(!img) return; cv.width=img.width; cv.height=img.height; ctx.drawImage(img,0,0); const id=ctx.getImageData(0,0,cv.width,cv.height); const d=id.data; const br=+document.getElementById('br').value, ct=(+document.getElementById('ct').value+100)/100, sat=(+document.getElementById('st').value+100)/100, gm=+document.getElementById('gm').value/100; for(let i=0;i<d.length;i+=4){ let r=d[i],g=d[i+1],b=d[i+2]; r=(r-128)*ct+128+br; g=(g-128)*ct+128+br; b=(b-128)*ct+128+br; const gray=0.299*r+0.587*g+0.114*b; r=gray+(r-gray)*sat; g=gray+(g-gray)*sat; b=gray+(b-gray)*sat; r=255*Math.pow(Math.max(0,Math.min(255,r))/255,1/gm); g=255*Math.pow(Math.max(0,Math.min(255,g))/255,1/gm); b=255*Math.pow(Math.max(0,Math.min(255,b))/255,1/gm); d[i]=r; d[i+1]=g; d[i+2]=b; } ctx.putImageData(id,0,0);} els.forEach(e=>e.oninput=draw); document.getElementById('save').onclick=()=>{const a=document.createElement('a'); a.href=cv.toDataURL('image/jpeg',0.92); a.download='tonecraft.jpg'; a.click();};</script><script>(function(){
-  const icons = {
-    make:'<svg class="btn-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>',
-    download:'<svg class="btn-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M4 21h16"/></svg>',
-    convert:'<svg class="btn-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h13"/><path d="M13 3l4 4-4 4"/><path d="M20 17H7"/><path d="M11 13l-4 4 4 4"/></svg>',
-    apply:'<svg class="btn-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>',
-    copy:'<svg class="btn-ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><rect x="4" y="4" width="11" height="11" rx="2"/></svg>',
-    random:'<svg class="btn-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M16 3h5v5"/><path d="M4 20L21 3"/><path d="M16 21h5v-5"/><path d="M4 4l7 7"/></svg>',
-    start:'<svg class="btn-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>',
-    scan:'<svg class="btn-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7V4h3M20 7V4h-3M4 17v3h3M20 17v3h-3"/><rect x="7" y="7" width="10" height="10" rx="2"/></svg>'
-  };
-  const choose = (txt) => {
-    const t = txt.toLowerCase();
-    if (t.includes('download') || t.includes('save')) return icons.download;
-    if (t.includes('convert')) return icons.convert;
-    if (t.includes('apply') || t.includes('enhance') || t.includes('detect')) return icons.apply;
-    if (t.includes('copy') || t.includes('extract')) return icons.copy;
-    if (t.includes('random')) return icons.random;
-    if (t.includes('start')) return icons.start;
-    if (t.includes('scan')) return icons.scan;
-    if (t.includes('generate') || t.includes('create') || t.includes('build') || t.includes('update')) return icons.make;
-    return icons.make;
-  };
-  document.querySelectorAll('button').forEach((btn) => {
-    const text = btn.textContent.trim();
-    if (!text || btn.dataset.iconized === '1') return;
-    btn.innerHTML = choose(text) + '<span>' + text + '</span>';
-    btn.dataset.iconized = '1';
-  });
-})();</script></body></html>
+  <script>
+    const defaults = {
+      brightness: 0,
+      contrast: 0,
+      saturation: 0,
+      gamma: 100,
+      warmth: 0,
+      fade: 0,
+      vignette: 0,
+      sharpness: 0
+    };
+
+    const presets = {
+      neutral: { ...defaults },
+      vivid: { brightness: 8, contrast: 20, saturation: 30, gamma: 96, warmth: 12, fade: 0, vignette: 8, sharpness: 18 },
+      portrait: { brightness: 10, contrast: 8, saturation: 14, gamma: 102, warmth: 10, fade: 6, vignette: 6, sharpness: 8 },
+      mono: { brightness: 4, contrast: 28, saturation: -100, gamma: 104, warmth: 0, fade: 10, vignette: 14, sharpness: 12 },
+      vintage: { brightness: 6, contrast: -8, saturation: -18, gamma: 108, warmth: 22, fade: 26, vignette: 16, sharpness: 0 },
+      cinema: { brightness: -4, contrast: 24, saturation: 10, gamma: 92, warmth: -8, fade: 4, vignette: 22, sharpness: 20 }
+    };
+
+    const state = {
+      image: null,
+      fileName: "",
+      rotation: 0,
+      flipX: 1,
+      flipY: 1,
+      zoom: 1,
+      compareEnabled: false,
+      previewScale: 1,
+      baseImageData: null,
+      renderFrame: 0,
+      renderTimer: 0,
+      deferHeavyEffects: false
+    };
+
+    const controls = ["brightness", "contrast", "saturation", "gamma", "warmth", "fade", "vignette", "sharpness"].reduce((acc, key) => {
+      acc[key] = {
+        input: document.getElementById(key),
+        output: document.getElementById(key + "Out")
+      };
+      return acc;
+    }, {});
+
+    const elements = {
+      uploadZone: document.getElementById("uploadZone"),
+      fileInput: document.getElementById("fileInput"),
+      loadBadge: document.getElementById("loadBadge"),
+      statusText: document.getElementById("statusText"),
+      workspaceTitle: document.getElementById("workspaceTitle"),
+      workspaceSubtitle: document.getElementById("workspaceSubtitle"),
+      canvasStage: document.getElementById("canvasStage"),
+      canvasStack: document.getElementById("canvasStack"),
+      baseCanvas: document.getElementById("baseCanvas"),
+      editCanvas: document.getElementById("editCanvas"),
+      compareCurtain: document.getElementById("compareCurtain"),
+      compareRange: document.getElementById("compareRange"),
+      compareOut: document.getElementById("compareOut"),
+      toggleCompareBtn: document.getElementById("toggleCompareBtn"),
+      fitBtn: document.getElementById("fitBtn"),
+      zoomOutBtn: document.getElementById("zoomOutBtn"),
+      zoomInBtn: document.getElementById("zoomInBtn"),
+      resetBtn: document.getElementById("resetBtn"),
+      rotateLeftBtn: document.getElementById("rotateLeftBtn"),
+      rotateRightBtn: document.getElementById("rotateRightBtn"),
+      flipHBtn: document.getElementById("flipHBtn"),
+      flipVBtn: document.getElementById("flipVBtn"),
+      exportFormat: document.getElementById("exportFormat"),
+      quality: document.getElementById("quality"),
+      exportBadge: document.getElementById("exportBadge"),
+      downloadBtn: document.getElementById("downloadBtn"),
+      infoName: document.getElementById("infoName"),
+      infoSize: document.getElementById("infoSize"),
+      infoZoom: document.getElementById("infoZoom"),
+      infoTransform: document.getElementById("infoTransform")
+    };
+
+    const baseCtx = elements.baseCanvas.getContext("2d", { willReadFrequently: true });
+    const editCtx = elements.editCanvas.getContext("2d", { willReadFrequently: true });
+
+    function clamp(value, min, max) {
+      return Math.min(max, Math.max(min, value));
+    }
+
+    function controlValue(name) {
+      return Number(controls[name].input.value);
+    }
+
+    function updateOutputs() {
+      Object.entries(controls).forEach(([name, pair]) => {
+        const value = Number(pair.input.value);
+        pair.output.value = name === "gamma" ? (value / 100).toFixed(2) : String(value);
+      });
+
+      elements.compareOut.value = elements.compareRange.value + "%";
+      elements.exportBadge.textContent = elements.exportFormat.value.replace("image/", "").toUpperCase() + " " + clamp(Number(elements.quality.value) || 92, 10, 100) + "%";
+      elements.infoZoom.textContent = Math.round(state.zoom * 100) + "%";
+
+      let transformText = state.rotation + " deg";
+      if (state.flipX === -1) transformText += " | flipX";
+      if (state.flipY === -1) transformText += state.flipX === -1 ? " flipY" : " | flipY";
+      elements.infoTransform.textContent = transformText;
+    }
+
+    function setStatus(text, badge) {
+      elements.statusText.textContent = text;
+      elements.loadBadge.textContent = badge;
+    }
+
+    function setControls(values) {
+      Object.entries(values).forEach(([key, value]) => {
+        controls[key].input.value = value;
+      });
+      updateOutputs();
+    }
+
+    function getDimensions(fullSize) {
+      if (!state.image) {
+        return { width: 1, height: 1 };
+      }
+      const scale = fullSize ? 1 : state.previewScale;
+      const rotated = Math.abs(state.rotation) % 180 === 90;
+      return {
+        width: Math.max(1, Math.round((rotated ? state.image.height : state.image.width) * scale)),
+        height: Math.max(1, Math.round((rotated ? state.image.width : state.image.height) * scale))
+      };
+    }
+
+    function sizeCanvases() {
+      const { width, height } = getDimensions(false);
+      [elements.baseCanvas, elements.editCanvas].forEach((canvas) => {
+        canvas.width = width;
+        canvas.height = height;
+      });
+      elements.canvasStack.style.width = width + "px";
+      elements.canvasStack.style.height = height + "px";
+    }
+
+    function renderImageToContext(targetCtx, width, height, sourceWidth, sourceHeight) {
+      targetCtx.clearRect(0, 0, width, height);
+      targetCtx.save();
+      targetCtx.translate(width / 2, height / 2);
+      targetCtx.rotate(state.rotation * Math.PI / 180);
+      targetCtx.scale(state.flipX, state.flipY);
+      targetCtx.drawImage(state.image, -sourceWidth / 2, -sourceHeight / 2, sourceWidth, sourceHeight);
+      targetCtx.restore();
+    }
+
+    function renderBaseImage() {
+      if (!state.image) {
+        return;
+      }
+
+      const { width, height } = getDimensions(false);
+      sizeCanvases();
+      renderImageToContext(baseCtx, width, height, Math.round(state.image.width * state.previewScale), Math.round(state.image.height * state.previewScale));
+      state.baseImageData = baseCtx.getImageData(0, 0, width, height);
+
+      elements.infoSize.textContent = state.image.width + " x " + state.image.height;
+    }
+
+    function applySharpness(imageData, amount) {
+      if (amount <= 0) {
+        return imageData;
+      }
+
+      const { width, height, data } = imageData;
+      const source = new Uint8ClampedArray(data);
+      const strength = amount / 100;
+
+      for (let y = 1; y < height - 1; y += 1) {
+        for (let x = 1; x < width - 1; x += 1) {
+          const index = (y * width + x) * 4;
+          for (let c = 0; c < 3; c += 1) {
+            const sharpened =
+              source[index + c] * 5 -
+              source[index - 4 + c] -
+              source[index + 4 + c] -
+              source[index - width * 4 + c] -
+              source[index + width * 4 + c];
+            data[index + c] = clamp(source[index + c] + sharpened * strength * 0.35, 0, 255);
+          }
+        }
+      }
+
+      return imageData;
+    }
+
+    function syncCompare() {
+      const split = clamp(Number(elements.compareRange.value) || 50, 0, 100);
+      elements.compareOut.value = split + "%";
+
+      if (!state.image || !state.compareEnabled) {
+        elements.baseCanvas.style.display = "none";
+        elements.baseCanvas.style.clipPath = "none";
+        elements.compareCurtain.style.display = "none";
+        return;
+      }
+
+      elements.baseCanvas.style.display = "block";
+      elements.baseCanvas.style.clipPath = "inset(0 " + (100 - split) + "% 0 0)";
+      elements.compareCurtain.style.display = "block";
+      elements.compareCurtain.style.left = split + "%";
+    }
+
+    function applyAdjustments(imageData, skipSharpness) {
+      const { width, height } = imageData;
+      const data = imageData.data;
+      const brightness = controlValue("brightness");
+      const contrast = (controlValue("contrast") + 100) / 100;
+      const saturation = (controlValue("saturation") + 100) / 100;
+      const gamma = clamp(controlValue("gamma") / 100, 0.4, 2.2);
+      const warmth = controlValue("warmth");
+      const fade = controlValue("fade") / 100;
+      const vignette = controlValue("vignette") / 100;
+      const centerX = width / 2;
+      const centerY = height / 2;
+      const maxDistance = Math.sqrt(centerX * centerX + centerY * centerY) || 1;
+
+      for (let y = 0; y < height; y += 1) {
+        for (let x = 0; x < width; x += 1) {
+          const i = (y * width + x) * 4;
+          let r = data[i];
+          let g = data[i + 1];
+          let b = data[i + 2];
+
+          r = (r - 128) * contrast + 128 + brightness;
+          g = (g - 128) * contrast + 128 + brightness;
+          b = (b - 128) * contrast + 128 + brightness;
+
+          const gray = 0.299 * r + 0.587 * g + 0.114 * b;
+          r = gray + (r - gray) * saturation;
+          g = gray + (g - gray) * saturation;
+          b = gray + (b - gray) * saturation;
+
+          r += warmth * 0.6;
+          g += warmth * 0.15;
+          b -= warmth * 0.55;
+
+          if (fade > 0) {
+            r = r * (1 - fade) + 235 * fade;
+            g = g * (1 - fade) + 228 * fade;
+            b = b * (1 - fade) + 220 * fade;
+          }
+
+          const distance = Math.sqrt((x - centerX) * (x - centerX) + (y - centerY) * (y - centerY));
+          const vignetteFactor = 1 - Math.pow(distance / maxDistance, 1.7) * vignette;
+
+          r = 255 * Math.pow(clamp(r, 0, 255) / 255, 1 / gamma) * vignetteFactor;
+          g = 255 * Math.pow(clamp(g, 0, 255) / 255, 1 / gamma) * vignetteFactor;
+          b = 255 * Math.pow(clamp(b, 0, 255) / 255, 1 / gamma) * vignetteFactor;
+
+          data[i] = clamp(r, 0, 255);
+          data[i + 1] = clamp(g, 0, 255);
+          data[i + 2] = clamp(b, 0, 255);
+        }
+      }
+
+      if (!skipSharpness) {
+        applySharpness(imageData, controlValue("sharpness"));
+      }
+
+      return imageData;
+    }
+
+    function drawEdited() {
+      if (!state.image || !state.baseImageData) {
+        return;
+      }
+
+      const { width, height } = getDimensions(false);
+      const imageData = new ImageData(new Uint8ClampedArray(state.baseImageData.data), width, height);
+      applyAdjustments(imageData, state.deferHeavyEffects);
+
+      editCtx.putImageData(imageData, 0, 0);
+      syncCompare();
+    }
+
+    function scheduleDraw(isInteractive) {
+      if (!state.image) {
+        return;
+      }
+
+      state.deferHeavyEffects = Boolean(isInteractive);
+
+      if (state.renderFrame) {
+        cancelAnimationFrame(state.renderFrame);
+      }
+
+      state.renderFrame = requestAnimationFrame(() => {
+        state.renderFrame = 0;
+        drawEdited();
+      });
+
+      if (state.renderTimer) {
+        clearTimeout(state.renderTimer);
+      }
+
+      if (isInteractive) {
+        state.renderTimer = setTimeout(() => {
+          state.deferHeavyEffects = false;
+          drawEdited();
+          state.renderTimer = 0;
+        }, 120);
+      }
+    }
+
+    function applyZoom(value) {
+      state.zoom = clamp(value, 0.2, 3);
+      elements.canvasStack.style.transform = "scale(" + state.zoom + ")";
+      updateOutputs();
+    }
+
+    function fitToView() {
+      if (!state.image) {
+        return;
+      }
+
+      const { width, height } = getDimensions(false);
+      const stageWidth = elements.canvasStage.clientWidth - 32;
+      const stageHeight = elements.canvasStage.clientHeight - 32;
+      if (stageWidth <= 0 || stageHeight <= 0) {
+        return;
+      }
+      applyZoom(Math.min(stageWidth / width, stageHeight / height, 1));
+    }
+
+    function updateWorkspaceMeta() {
+      if (!state.image) {
+        elements.canvasStage.classList.add("is-empty");
+        elements.workspaceTitle.textContent = "ToneCraft preview studio";
+        elements.workspaceSubtitle.textContent = "Load an image to activate comparison, transforms, zoom, and export tools.";
+        elements.infoName.textContent = "-";
+        elements.infoSize.textContent = "-";
+        return;
+      }
+
+      elements.canvasStage.classList.remove("is-empty");
+      elements.workspaceTitle.textContent = state.fileName;
+      elements.workspaceSubtitle.textContent = "Use presets for fast looks, then fine-tune sliders and export your final frame.";
+      elements.infoName.textContent = state.fileName;
+    }
+
+    async function loadImage(file) {
+      if (!file) {
+        return;
+      }
+
+      if (!file.type.startsWith("image/")) {
+        setStatus("That file is not an image.", "Error");
+        return;
+      }
+
+      setStatus("Loading image...", "Loading");
+
+      try {
+        const image = await new Promise((resolve, reject) => {
+          const nextImage = new Image();
+          const reader = new FileReader();
+
+          nextImage.onload = () => resolve(nextImage);
+          nextImage.onerror = () => reject(new Error("image-load-failed"));
+          reader.onerror = () => reject(new Error("file-read-failed"));
+          reader.onload = () => {
+            nextImage.src = reader.result;
+          };
+          reader.readAsDataURL(file);
+        });
+
+        state.image = image;
+        state.fileName = file.name || "clipboard-image";
+        state.rotation = 0;
+        state.flipX = 1;
+        state.flipY = 1;
+        state.zoom = 1;
+        state.previewScale = Math.min(1, 1600 / Math.max(image.width, image.height));
+        state.baseImageData = null;
+
+        setControls(defaults);
+        renderBaseImage();
+        drawEdited();
+        updateWorkspaceMeta();
+        updateOutputs();
+        syncCompare();
+        elements.fileInput.value = "";
+        setStatus("Loaded " + state.fileName + ".", "Loaded");
+      } catch (error) {
+        setStatus("Unable to load this image.", "Error");
+      }
+    }
+
+    function exportImage() {
+      if (!state.image) {
+        setStatus("Load an image before exporting.", "Idle");
+        return;
+      }
+
+      const mimeType = elements.exportFormat.value;
+      const quality = clamp(Number(elements.quality.value) || 92, 10, 100) / 100;
+      const extension = mimeType === "image/png" ? "png" : mimeType === "image/webp" ? "webp" : "jpg";
+      const { width, height } = getDimensions(true);
+      const exportCanvas = document.createElement("canvas");
+      const exportCtx = exportCanvas.getContext("2d", { willReadFrequently: true });
+      exportCanvas.width = width;
+      exportCanvas.height = height;
+      renderImageToContext(exportCtx, width, height, state.image.width, state.image.height);
+      const exportData = exportCtx.getImageData(0, 0, width, height);
+      applyAdjustments(exportData, false);
+      exportCtx.putImageData(exportData, 0, 0);
+      const link = document.createElement("a");
+      link.href = exportCanvas.toDataURL(mimeType, quality);
+      link.download = "tonecraft-export." + extension;
+      link.click();
+      setStatus("Exported edited image.", "Saved");
+    }
+
+    Object.values(controls).forEach((pair) => {
+      pair.input.addEventListener("input", () => {
+        updateOutputs();
+        scheduleDraw(true);
+      });
+      pair.input.addEventListener("change", () => {
+        state.deferHeavyEffects = false;
+        drawEdited();
+      });
+    });
+
+    document.querySelectorAll(".preset-btn").forEach((button) => {
+      button.addEventListener("click", () => {
+        setControls(presets[button.dataset.preset]);
+        drawEdited();
+        setStatus("Preset applied: " + button.dataset.preset + ".", "Preset");
+      });
+    });
+
+    elements.fileInput.addEventListener("change", (event) => {
+      loadImage(event.target.files[0]);
+    });
+
+    ["dragenter", "dragover"].forEach((eventName) => {
+      elements.uploadZone.addEventListener(eventName, (event) => {
+        event.preventDefault();
+        elements.uploadZone.classList.add("dragover");
+      });
+    });
+
+    ["dragleave", "drop"].forEach((eventName) => {
+      elements.uploadZone.addEventListener(eventName, (event) => {
+        event.preventDefault();
+        elements.uploadZone.classList.remove("dragover");
+      });
+    });
+
+    elements.uploadZone.addEventListener("drop", (event) => {
+      const file = event.dataTransfer && event.dataTransfer.files ? event.dataTransfer.files[0] : null;
+      loadImage(file);
+    });
+
+    document.addEventListener("paste", (event) => {
+      const items = Array.from((event.clipboardData && event.clipboardData.items) || []);
+      const imageItem = items.find((item) => item.type.startsWith("image/"));
+      if (imageItem) {
+        loadImage(imageItem.getAsFile());
+      }
+    });
+
+    elements.compareRange.addEventListener("input", syncCompare);
+    elements.exportFormat.addEventListener("change", updateOutputs);
+    elements.quality.addEventListener("input", updateOutputs);
+    elements.downloadBtn.addEventListener("click", exportImage);
+
+    elements.resetBtn.addEventListener("click", () => {
+      setControls(defaults);
+      state.rotation = 0;
+      state.flipX = 1;
+      state.flipY = 1;
+      if (state.image) {
+        renderBaseImage();
+        drawEdited();
+      }
+      updateOutputs();
+      setStatus("All settings were reset.", "Reset");
+    });
+
+    elements.toggleCompareBtn.addEventListener("click", () => {
+      state.compareEnabled = !state.compareEnabled;
+      elements.toggleCompareBtn.textContent = state.compareEnabled ? "Hide compare" : "Toggle compare";
+      syncCompare();
+    });
+
+    elements.fitBtn.addEventListener("click", fitToView);
+    elements.zoomOutBtn.addEventListener("click", () => applyZoom(state.zoom - 0.1));
+    elements.zoomInBtn.addEventListener("click", () => applyZoom(state.zoom + 0.1));
+
+    elements.rotateLeftBtn.addEventListener("click", () => {
+      if (!state.image) {
+        return;
+      }
+      state.rotation = (state.rotation - 90 + 360) % 360;
+      renderBaseImage();
+      drawEdited();
+      updateOutputs();
+    });
+
+    elements.rotateRightBtn.addEventListener("click", () => {
+      if (!state.image) {
+        return;
+      }
+      state.rotation = (state.rotation + 90) % 360;
+      renderBaseImage();
+      drawEdited();
+      updateOutputs();
+    });
+
+    elements.flipHBtn.addEventListener("click", () => {
+      if (!state.image) {
+        return;
+      }
+      state.flipX *= -1;
+      renderBaseImage();
+      drawEdited();
+      updateOutputs();
+    });
+
+    elements.flipVBtn.addEventListener("click", () => {
+      if (!state.image) {
+        return;
+      }
+      state.flipY *= -1;
+      renderBaseImage();
+      drawEdited();
+      updateOutputs();
+    });
+
+    updateOutputs();
+    updateWorkspaceMeta();
+    syncCompare();
+    setStatus("Waiting for an image.", "No image");
+  </script>
+</body>
+</html>
